@@ -1,0 +1,18 @@
+Process A cannot execute a until process B has executed c. Similarly process B cannot execute d until process A has executed a. (where a, b, c, and d could have one instruction or multiple instructions).
+
+semaphore s1=0;
+semaphore s2=0;
+
+######Process A######
+a;
+signal(s2);
+wait(s1);
+b;
+
+
+####Process B######
+c;
+signal(s1);
+wait(s2);
+d;
+ 

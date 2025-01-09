@@ -1,0 +1,38 @@
+let arr = [10,11,12,13]
+undefined
+u=[arr,7,8]
+(3) [Array(4), 7, 8]
+u
+(3) [Array(4), 7, 8]0: (4) [10, 11, 12, 13]0: 101: 112: 123: 13length: 4[[Prototype]]: Array(0)1: 72: 8length: 3[[Prototype]]: Array(0)
+u = [...arr,7,8]  // ... spread operator, unpacks nested array
+(6) [10, 11, 12, 13, 7, 8]
+// same thing can be done in nested objects
+undefined
+function s(...args){  // rest operator combines comma sperated nums 1,2,3,4 in an array
+    args.sort()
+}
+undefined
+function s(...args){  // rest operator combines comma sperated nums 1,2,3,4 in an array
+   return args.sort()
+}
+undefined
+s(1,3,2)
+(3) [1, 2, 3]
+// Destructuring:
+undefined
+arr
+(4) [10, 11, 12, 13]
+[a,b]=arr
+(4) [10, 11, 12, 13]
+a,b
+11
+a
+10
+b
+11
+[a,,,b]=arr
+(4) [10, 11, 12, 13]
+b
+13
+{i}={name:'hira',res:30}
+VM875:1 Uncaught SyntaxError: Unexpected token '='

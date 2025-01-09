@@ -1,0 +1,55 @@
+# Input/Output
+
+# Reading user input from the console
+user_input = input('Enter something: ')
+
+# Writing output to the console
+print('Hello, World!')
+
+# Writing output to a file
+with open('output.txt', 'w') as f:
+    f.write('Hello, World!')
+
+# Reading input from a file
+with open('input.txt', 'r') as f:
+    file_contents = f.read()
+
+# File Handling
+
+# Opening a file
+file = open('file.txt', 'r')
+
+# Reading the contents of a file
+file_contents = file.read()
+
+# Writing to a file
+file.write('Hello, World!')
+
+# Closing a file
+file.close()
+
+# Loops
+
+# For loop
+for i in range(10):
+    print(i)
+
+# While loop
+i = 0
+while i < 10:
+    print(i)
+    i += 1
+
+# Error Handling
+
+# Try/except block
+try:
+    x = 1 / 0
+except ZeroDivisionError:
+    print('Cannot divide by zero.')
+except:
+    print('An error occurred.')
+else:
+    print('No errors occurred.')
+finally:
+    print('This code always runs, whether or not an error occurred.')

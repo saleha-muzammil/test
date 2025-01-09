@@ -1,0 +1,33 @@
+Dining Philosophers Problem: There are N philosophers seated around a round table. Each philosopher has one fork on their left and one fork on their right. A philosopher thinks for some time. When they begin to feel hungry, they pick both forks (left and right) and start eating. After they have finished eating, they begin to think again.
+
+mutex forks[n]={false}; //we can also use semaphores (initial value will be 0, and maximum value will be 1).
+
+###Philosophers######
+ 
+philosophers(i)
+{
+
+  while(1)
+  { 
+    think();
+    if (i==n-1) //last philosopher)
+    {
+      acquire(forks[0]); //pick right fork.
+      acquire(forks[i]); //pick left fork.
+    }
+    else
+    {
+      acquire(forks[i]); //pick left fork.
+      acquire(forks[i+1]); //pick right fork.
+    }
+  
+    eat();
+  
+   release(forks[i]);
+   release(forks[(i+1)%n]);
+   
+ }//end of while loop
+
+}
+  
+  

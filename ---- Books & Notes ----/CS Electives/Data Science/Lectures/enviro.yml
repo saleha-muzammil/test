@@ -1,0 +1,14 @@
+name: firstlab
+channels:
+  - defaults
+dependencies:
+  - certifi=2020.6.20=pyhd3eb1b0_3
+  - pip=10.0.1=py35_0
+  - python=3.5.6=he025d50_0
+  - setuptools=40.2.0=py35_0
+  - vc=14.2=h21ff451_1
+  - vs2015_runtime=14.27.29016=h5e58377_2
+  - wheel=0.37.1=pyhd3eb1b0_0
+  - wincertstore=0.2=py35hfebbdb8_0
+prefix: C:\Users\saif\AppData\Local\conda\conda\envs\firstlab
+

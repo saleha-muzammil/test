@@ -1,0 +1,24 @@
+'ali'.length
+3
+'alu'.toUpperCase()
+'ALU'
+const arr = Array.from('muli')
+undefined
+arr
+(4) ['m', 'u', 'l', 'i']
+const str = "mon,tue,wed,thurs,fri,sat,sun"
+undefined
+const a = str.split(',')
+undefined
+a
+(7) ['mon', 'tue', 'wed', 'thurs', 'fri', 'sat', 'sun']
+str.startsWith('mon')
+true
+str.indexOf('t') // gets first occurance
+4
+f = (s)=>{
+    return s.split('').reverse().join('')
+}
+
+f(str)
+'nus,tas,irf,sruht,dew,eut,nom'

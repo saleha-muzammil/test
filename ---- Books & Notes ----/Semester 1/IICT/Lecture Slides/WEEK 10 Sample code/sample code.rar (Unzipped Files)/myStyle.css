@@ -1,0 +1,15 @@
+#loginButton {
+  margin-left:100px;
+  background-color:black ;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin-left:38%;
+  cursor: pointer;
+  width:100px;
+  height:35px
+}
+
+

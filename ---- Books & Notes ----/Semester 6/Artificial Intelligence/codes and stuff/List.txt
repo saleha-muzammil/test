@@ -1,0 +1,34 @@
+# Creating a list
+my_list = [1, 2, 3, 4, 5]
+
+# Accessing an element
+my_list[0] # returns the first element in the list, which is 1
+
+# Adding elements to a list
+my_list.append(6) # adds 6 to the end of the list
+my_list.insert(0, 0) # adds 0 to the beginning of the list
+
+# Removing elements from a list
+my_list.remove(3) # removes the first occurrence of 3 from the list
+my_list.pop(0) # removes the first element from the list
+
+# Slicing a list
+my_list[1:3] # returns a new list with elements at index 1 and 2
+my_list[:3] # returns a new list with elements at index 0, 1, and 2
+my_list[3:] # returns a new list with elements starting from index 3
+
+# Sorting a list
+my_list.sort() # sorts the list in ascending order
+my_list.reverse() # reverses the order of the list
+
+# Checking if an element is in a list
+3 in my_list # returns True if 3 is in the list
+
+# Finding the length of a list
+len(my_list) # returns the number of elements in the list
+
+# Copying a list
+new_list = my_list.copy() # creates a new list with the same elements as my_list
+
+# Clearing a list
+my_list.clear() # removes all elements from the list

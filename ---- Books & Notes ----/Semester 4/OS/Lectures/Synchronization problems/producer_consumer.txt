@@ -1,0 +1,34 @@
+
+Producer Consumer Problem:
+We have a queue of size N. The producer will write (push) data to this queue, and the consumer will read (pop) data from this queue. The producer cannot write data when the
+queue is full. Similarly, the consumer cannot read data when the queue is empty.
+
+int N=10;
+int queue[N];
+semaphore producer=10, consumer=0;
+
+###########Producer Code###################
+int p_counter=0;
+
+while(1)
+{
+  wait(producer);
+  queue[p_counter]=produceItem();
+  p_counter=(p_counter+1)%N;
+  signal(consumer);  
+}
+
+
+
+########Consumer Code#####################
+int c_counter=0;
+
+while(1)
+{
+  wait(consumer);
+  cout<<queue[c_counter];
+  c_counter=(c_counter+1)%N;
+  signal(producer);  
+}
+
+

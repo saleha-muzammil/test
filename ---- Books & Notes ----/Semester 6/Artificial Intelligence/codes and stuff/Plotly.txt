@@ -1,0 +1,19 @@
+import plotly.express as px
+
+# Scatter plot
+fig = px.scatter(df, x='x_values', y='y_values')
+
+# Bar plot
+fig = px.bar(df, x='x_values', y='y_values')
+
+# Line plot
+fig = px.line(df, x='x_values', y='y_values')
+
+# Box plot
+fig = px.box(df, x='x_values', y='y_values')
+
+# Customize the visualization
+fig.update_layout(title='Title')
+fig.update_xaxes(title='X Label')
+fig.update_yaxes(title='Y Label')
+fig.show()

@@ -1,0 +1,208 @@
+let str ='amin'
+undefined
+for (let i of str){
+    console.log(i)
+}
+VM177:2 a
+VM177:2 m
+VM177:2 i
+VM177:2 n
+undefined
+let arr = ['amin','ammaaman']
+undefined
+for (let i of arr){
+    console.log(i)
+}
+VM235:2 amin
+VM235:2 ammaaman
+undefined
+let obj ={name:'amin',age:20}  \\ braces make an object
+
+for(let i in obj)
+{
+    console.log(obj[i])
+}
+VM524:3 amin
+VM524:3 20
+undefined
+for(let i in str)
+{
+    console.log(i)
+}
+VM557:3 0
+VM557:3 1
+VM557:3 2
+VM557:3 3
+undefined
+
+function sayHi(){}
+undefined
+function sayHi(){
+    console.log('Hi')
+}
+undefined
+sayHi
+ƒ sayHi(){
+    console.log('Hi')
+}
+sayHi()
+VM635:2 Hi
+undefined
+function(){
+}
+VM683:1 Uncaught SyntaxError: Function statements require a function name
+function dayHi(){
+    const msg ='Hello'
+}
+undefined
+function dayHi(){
+    const msg ='Hello'
+    return msg
+}
+undefined
+let y =dayHi()
+undefined
+y
+'Hello'
+msg
+VM788:1 Uncaught ReferenceError: msg is not defined
+    at <anonymous>:1:1
+(anonymous) @ VM788:1
+function sayMore(name){
+    const msg = `Hello, name is ${name}`
+    return msg
+}
+undefined
+z = sayMore('amin')
+'Hello, name is amin'
+let www = function(){
+    console.log('Hello this is me')
+}
+undefined
+www
+ƒ (){
+    console.log('Hello this is me')
+}
+www()
+VM1038:2 Hello this is me
+undefined
+let www = function(){
+    let msg = 'Hello this is me'
+    return msg
+}
+undefined
+www()
+'Hello this is me'
+
+Anonymsu functions
+empty function body would give undefined
+
+let www = (name)=>{
+    let msg = `Hello this is me ${name}`
+    return msg
+}
+undefined
+www('hot')
+'Hello this is me hot'
+let ww = name => `Hello this is ${name}`
+undefined
+ww('dds')
+'Hello this is dds'
+let ww = (name,age) => `Hello this is ${name}, age ${age}`
+undefined
+ww('dds',34)
+'Hello this is dds, age 34'
+
+
+let findMax = arr =>{
+    let max = arr[0]
+    for (i of arr)
+        if (i > max)
+            max = i
+    return max
+}
+undefined
+findMax([4,1,2,4,7,8])
+8
+findMax([4,1,2,45,7,8])
+45
+let getSquare = prompt('Enter a number') => Number(num)**2
+VM1812:1 Uncaught SyntaxError: Malformed arrow function parameter list
+let getSquare = (prompt('Enter a number')) => Number(num)**2
+VM1817:1 Uncaught SyntaxError: Invalid destructuring assignment target
+let getSquare = num => Number(num)**2
+undefined
+getSquare(prompt('Enter a number'))
+16
+console.log(Math.min(4,5,6,3,5,6,77,66,53,3))
+VM2131:1 3
+undefined
+console.log(Math.max(4,5,6,3,5,6,77,66,53,3))
+VM2142:1 77
+undefined
+let movies = ['zootopia','rrr','lion king']
+undefined
+for(i of movies){
+    console.log(i)
+}
+VM2284:2 zootopia
+VM2284:2 rrr
+VM2284:2 lion king
+undefined
+function ok(input){
+    console.log(input)
+}
+undefined
+function find(i){
+    console.log(i)
+}
+undefined
+movies.forEach(find)
+VM2505:2 zootopia
+VM2505:2 rrr
+VM2505:2 lion king
+undefined
+let vari = i => console.log(i)
+undefined
+movies.forEach(vari)
+VM2729:1 zootopia
+VM2729:1 rrr
+VM2729:1 lion king
+undefined
+movies.forEach(i => console.log(i))
+VM2843:1 zootopia
+VM2843:1 rrr
+VM2843:1 lion king
+undefined
+movies.forEach((i, idx) => console.log(i+": at "+idx))
+VM2886:1 zootopia: at 0
+VM2886:1 rrr: at 1
+VM2886:1 lion king: at 2
+undefined
+movies.length
+3
+movies.push('finding nemo') // adds item at end
+4
+movies.unshift('finding nemo 2' ) // adds item at start 
+5
+movies.pop()
+'finding nemo'
+movies
+(4) ['finding nemo 2', 'zootopia', 'rrr', 'lion king']
+movies.splice(2,1)   // remove 1 element starting on index 2. Indexing starts from 0
+['rrr']
+movies
+(3) ['finding nemo 2', 'zootopia', 'lion king']
+
+let arr = []
+
+for (let i =0; i<5; i++){
+    arr.push(prompt('Enter a string'))
+}
+5
+arr
+(5) ['full', 'short', 'shirt', 'tie', 'bag']
+arr.splice(arr.indexOf('tie'),2)
+(2) ['tie', 'bag']
+arr
+(3) ['full', 'short', 'shirt']

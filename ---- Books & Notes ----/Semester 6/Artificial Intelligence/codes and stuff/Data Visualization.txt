@@ -1,0 +1,29 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Line plot
+sns.lineplot(x='x_values', y='y_values', data=df)
+
+# Scatter plot
+sns.scatterplot(x='x_values', y='y_values', data=df)
+
+# Bar plot
+sns.barplot(x='x_values', y='y_values', data=df)
+
+# Histogram
+sns.histplot(data=df, x='column_name', bins=10)
+
+# Box plot
+sns.boxplot(x='x_values', y='y_values', data=df)
+
+# Heatmap
+sns.heatmap(data=df.corr(), annot=True, cmap='coolwarm')
+
+# Pairplot
+sns.pairplot(data=df)
+
+# Customize the visualization
+plt.title('Title')
+plt.xlabel('X Label')
+plt.ylabel('Y Label')
+plt.show()

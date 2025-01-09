@@ -1,0 +1,26 @@
+Little endian and Big Endian
+Byte order is reversed, in Little Endian, most significant byte is written in RHS and least Significant on LHS
+in Big Endian, least significant byte is written in RHS and most Significant on LHS
+
+Example
+
+dw 5
+BE:0005
+LE:0500
+dw 0A0Bh
+BE: 0A0B
+LE: 0B0A
+dd: 0A0B0C0D
+BE: 0A0B0C0D
+LE: 0D0C0B0A
+
+The data is written in Memory in Litte Endian for
+Example: 
+
+num1: dd 0A0B0C0D
+
+In memory it will look like 0D0C0B0A, and num1 is actually the address with 0D is located. 
+Therefore when we write mov ax, [num1], two bytes are loaded in ax, starting from address num1. 
+The least significant byte i.e. 0D will be loaded in AL and 0C will be loaded in AH. 
+
+

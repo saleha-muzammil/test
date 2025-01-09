@@ -1,0 +1,61 @@
+import numpy as nump
+from PIL import Image
+
+# set size of image
+width, height = 1000, 700
+
+
+image_array = nump.zeros((height, width, 3), dtype=nump.uint8)
+
+# Create PIL  object from numpy array
+img = Image.fromarray(image_array)
+
+# Save the image
+img.save('numpy_image.png')
+
+import pandas as pan
+
+# Read the dataset
+data = pan.read_csv("GHCN_daily_data.csv", header=None, names=['station', 'date', 'observation', 'value', 'mflag', 'qflag', 'sflag', 'obstime'])
+
+data = data[data['qflag'].isnull()]
+data = data[data['station'].str.startswith('US')]
+data = data[data['observation'] == 'TMIN']
+
+data['tmin'] = data['value'] / 10.0
+
+data = data[['station', 'date', 'tmin']]
+
+# Save the output to a new file
+data.to_csv("GHCN_output.csv", index=False)
+
+
+-------------reg--------------
+import pandas as panda
+import re
+import matplotlib.pyplot as plott
+from scipy import stats
+
+
+dog_ratings = panda.read_csv('twitter_dog_rates_data.csv')
+
+
+dog_ratings['rating'] = dog_ratings['text'].str.extract('(\d+(\.\d+)?)/10', expand=True)[0]
+
+dog_ratings.dropna(subset=['rating'], inplace=True)
+
+# Converting rating to float and restricting rating to less than 25
+dog_ratings['rating'] = dog_ratings['rating'].astype(float)
+dog_ratings = dog_ratings[dog_ratings['rating'] < 25]
+
+dog_ratings['timestamp'] = panda.to_datetime(dog_ratings['timestamp'])
+
+dog_ratings['timestamp_seconds'] = dog_ratings['timestamp'].astype(int)/10**9
+
+fit = stats.linregress(dog_ratings['timestamp_seconds'], dog_ratings['rating'])
+dog_ratings['prediction'] = dog_ratings['timestamp_seconds']*fit.slope + fit.intercept 
+
+plott.xticks(rotation=25)
+plott.plot(dog_ratings['timestamp'], dog_ratings['rating'], 'b.', alpha=0.5)
+plott.plot(dog_ratings['timestamp'], dog_ratings['prediction'], 'r-', linewidth=3)
+plott.show()

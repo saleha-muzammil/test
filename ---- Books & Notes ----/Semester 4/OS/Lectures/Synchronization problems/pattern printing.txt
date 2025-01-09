@@ -1,0 +1,34 @@
+Problem Statement: Consider three processes A, B and C that are running an infinite loop and printing a, b, and c, respectively. All three processes run concurrently, and printing can occur in any order. Syncrhonize the processes so that the printing occurs in order, i.e., a is printed first, then b, and then c; and repeat.
+
+
+Shared Variables:
+mutex m1=false, m2=true, m3=true;
+
+Process A:
+while(true)
+{
+  acquire(m1);  
+  cout<<'a';
+  release(m2);
+}
+
+
+Process B:
+while(true)
+{
+  acquire(m2);
+  cout<<'b';
+  release(m3);
+}
+
+
+
+Process C:
+while(true)
+{ 
+   acquire(m3);
+   cout<<'c';
+   release(m1);
+}
+
+

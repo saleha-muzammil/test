@@ -1,0 +1,22 @@
+import matplotlib.pyplot as plt
+
+# Line plot
+plt.plot(df['x_values'], df['y_values'])
+
+# Scatter plot
+plt.scatter(df['x_values'], df['y_values'])
+
+# Bar plot
+plt.bar(df['x_values'], df['y_values'])
+
+# Histogram
+plt.hist(df['column_name'], bins=10)
+
+# Box plot
+plt.boxplot(df['column_name'])
+
+# Customize the visualization
+plt.title('Title')
+plt.xlabel('X Label')
+plt.ylabel('Y Label')
+plt.show()

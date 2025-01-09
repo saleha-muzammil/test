@@ -1,0 +1,37 @@
+#include<iostream>
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<semaphore.h>
+#include<pthread.h>
+#include<sys/mman.h>
+#include<sys/types.h>
+#include<sys/wait.h>
+#include<sys/shm.h>
+#include<sys/ipc.h>
+#include<fcntl.h>
+
+using namespace std;
+
+//SEMAPHORES
+sem_t mutex
+sem_init(&mutex, 0,1)
+sem_wait(&mutex);
+sem_post(&mutex)
+sem_destroy(&mutex)
+
+//THREADS
+pthread_t t1;
+pthread_create(&t1, NULL, function, void(*) ptr)
+pthread_join(t1,NULL)
+
+//MAPS
+mmap(NULL,1000,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0)
+munmap(map)
+
+
+//SHARED MEMORY
+int key=shmget(123456,1000,0666|IPC_CREAT|IPC_EXCL)
+int* ptr=shmat(key,NULL,0)
+shmdt(ptr)
+shmctl(key,IPC_RMID,0)

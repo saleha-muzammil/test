@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AppPreferenceActivity</string>
+    <string name="hello">User preferences</string>
+
+</resources>

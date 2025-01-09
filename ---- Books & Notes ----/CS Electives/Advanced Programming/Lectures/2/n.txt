@@ -1,0 +1,14 @@
+javascript is dynamically/loosely typed language. Variable type nhi deni parti
+Variable scope is in blocks
+5 + 'k' will concatenate. Other operators wont work
+undefined, null, NaN, boolean, string, number, Infinity
+undefined: variable ka reference nhi bana hota e.g. let a
+null: reference bann chuka hai but value nhi rakhi. let d = null
+NaN: When something is not possible e.g. 0/0
+typeof(varname)
+
+comparision:
+
+== loose, two values compared  0 == '0' will give true. It converted one value implicitly
+=== strict, two values along with their types 0 === '0' will  give false.
+Always use === 

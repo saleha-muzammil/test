@@ -1,0 +1,146 @@
+; example 1
+[org 0x0100] 
+
+mov ax, 0xb800
+mov es, ax
+mov al, 0x41
+mov ah, 10100001b
+mov word [es:0], ax
+
+mov ax, 0x4c00 ; terminate program
+int 0x21 
+
+ ; example 2
+[org 0x0100]
+mov ax, 0xb800
+mov es, ax
+mov al, 0x41
+mov ah, 10100001b
+mov word [es:0], 0741h
+mov word [es:158], 0742h
+mov word [es:160], 0744h
+mov word [es:160], 0744h
+mov word [es:3840], 0745h; (80*24 + 0)*2 
+mov word [es:3998], 0746h; (80*24+ 79)*2
+
+mov ax, 0x4c00 ; terminate program
+int 0x21 
+ 
+
+; example 3 
+[org 0x0100]
+jmp start
+message: db 'abc'
+start:
+ mov ax, 0xb800 ; load video base in ax
+ mov es, ax ; point es to video base
+ mov di, 0 ; point di to top left column
+nextchar: 
+ mov word [es:di], 0x0720 ; clear next char on screen
+ add di, 2 ; move to next screen location
+ cmp di, 4000 ; has the whole screen cleared
+ jne nextchar ; if no clear next position
+ mov ax, 0x4c00 ; terminate program
+ int 0x21 
+ 
+ 
+ ;div instructions examples
+[org 0x0100]
+
+mov dx, 0
+mov ax, 10
+mov bx, 3
+div bx; divides a 32bit number in DX:AX  by 16 bit bx, 
+;16bit quotient in AX and the 16bit remainder in DX
+
+mov ax, 5
+mov bx, 4
+div bl; divides a 16bit number in Ah:Al  by 8 bit bl,
+; stores the 8bit quotient in AL and the 8bit remainder in AH
+
+;If a large number is divided by a very small number it is possible that the
+;quotient is larger than the space provided for it in the implied destination. In
+;this case an interrupt is automatically generated and the program is usually
+;terminated as a result. 
+mov dx, 0xFFFF
+mov ax, 0xFFFF
+mov bx, 1
+div bx ;this will give an error
+;DIV (divide) performs an unsigned division of the accumulator (and its
+;extension) by the source operand.
+
+;MUL Instruction
+;MUL (multiply) performs an unsigned multiplication of the source operand
+;and the accumulator. If the source operand is a byte, then it is multiplied by
+;register AL and the double-length result is returned in AH and AL. If the
+;source operand is a word, then it is multiplied by register AX, and the
+;double-length result is returned in registers DX and AX. 
+
+
+;Example 6.4  from BH with corrections
+; hello world at desired screen location
+[org 0x0100]
+ jmp start
+message: db 'hello world' ; string to be printed
+length: dw 11 ; length of the string
+
+clrscr: push es
+ push ax
+ push di 
+ mov ax, 0xb800
+ mov es, ax ; point es to video base
+ mov di, 0 ; point di to top left column
+nextloc: mov word [es:di], 0x0720 ; clear next char on screen
+ add di, 2 ; move to next screen location
+ cmp di, 4000 ; has the whole screen cleared
+ jne nextloc ; if no clear next position
+ pop di
+ pop ax
+ pop es
+ ret 
+
+; subroutine to print a string at top left of screen
+; takes x position, y position, string attribute, address of string
+; and its length as parameters
+printstr: push bp
+ mov bp, sp
+ push es
+ push ax
+ push cx
+ push si
+ push di
+ mov ax, 0xb800
+ mov es, ax ; point es to video base
+ mov al, 80 ; load al with columns per row
+ mul byte [bp+10] ; multiply with y position
+ add ax, [bp+12] ; add x position
+ shl ax, 1 ; turn into byte offset
+ mov di,ax ; point di to required location
+ mov si, [bp+6] ; point si to string
+ mov cx, [bp+4] ; load length of string in cx
+ mov ah, [bp+8] ; load attribute in ah
+nextchar: mov al, [si] ; load next char of string
+ mov [es:di], ax ; show this char on screen
+ add di, 2 ; move to next screen location 
+ add si, 1 ; move to next char in string
+ loop nextchar ; repeat the operation cx times
+ pop di
+ pop si
+ pop cx
+ pop ax
+ pop es
+ pop bp
+ ret 10
+start: call clrscr ; call the clrscr subroutine
+ mov ax, 30
+ push ax ; push x position
+ mov ax, 20
+ push ax ; push y position
+ mov ax, 1 ; blue on black attribute
+ push ax ; push attribute
+ mov ax, message
+ push ax ; push address of message
+ push word [length] ; push message length
+ call printstr ; call the printstr subroutine
+ mov ax, 0x4c00 ; terminate program
+ int 0x21 

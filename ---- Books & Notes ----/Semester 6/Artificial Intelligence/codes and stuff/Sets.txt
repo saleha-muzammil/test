@@ -1,0 +1,36 @@
+# Creating a set
+my_set = {1, 2, 3}
+
+# Adding elements to a set
+my_set.add(4)
+my_set.update([5, 6, 7])
+
+# Removing elements from a set
+my_set.remove(3)
+my_set.discard(4)
+my_set.pop() # removes and returns an arbitrary element from the set
+
+# Set operations
+set1 = {1, 2, 3, 4}
+set2 = {3, 4, 5, 6}
+
+set3 = set1.union(set2) # returns a new set with all elements from set1 and set2
+set4 = set1.intersection(set2) # returns a new set with elements common to set1 and set2
+set5 = set1.difference(set2) # returns a new set with elements in set1 but not in set2
+set6 = set1.symmetric_difference(set2) # returns a new set with elements in set1 or set2 but not both
+
+# Checking if a set is a subset or superset of another set
+set1.issubset(set3) # returns True if set1 is a subset of set3
+set3.issuperset(set1) # returns True if set3 is a superset of set1
+
+# Checking if two sets are disjoint
+set1.isdisjoint(set2) # returns False if set1 and set2 have at least one common element
+
+# Getting the length of a set
+len(my_set)
+
+# Copying a set
+new_set = my_set.copy()
+
+# Clearing a set
+my_set.clear()

@@ -1,0 +1,103 @@
+// Api and error handling
+
+npm install axios
+import axios from 'axios'
+// App.js
+
+state={
+    posts:[],
+    error:false
+}
+
+componentDidMount(){
+    // make useEffect if functional component
+    // let posts = axios.get("https://jsonplaceholder.typicode.com/posts"); // ye nahi karna
+    // axios runs asynchornously, posts might be null
+    // get received promise call
+    axios.get("https://jsonplaceholder.typicode.com/posts").then((response)=>{  // promise call
+            console.log(response.data);
+            let posts=response.data;
+            this.setState({
+                posts:posts
+            })
+        }).catch((error)=>{
+            console.log(error)
+            this.setState({error:true})
+        })  
+}
+
+render(){
+    return(
+        <div>
+            { this.state.error===false &&
+                this.state.posts.map(p=>{
+                    return({
+                        <div>
+                            <h2>{p.title}</h2>
+                        </div>
+                    })
+                })
+            }
+            {
+                this.state.error===true && 
+                <p>Request failed</p>
+            }
+        </div>
+    )
+}
+
+
+------------------------------------
+
+//New post.js
+
+class NewPost extends Component{
+
+state={
+    title:"",
+    body:""
+}
+
+addPost=()={
+    let post={
+        title:this.state.title,
+        body:this.state.body
+    }
+
+    componentDidMount(){
+        axios.post("https://jsonplaceholder.typicode.com/posts",post).then(res=>{
+            //post method auto generates id
+            console.log(res);
+            
+        });
+    }
+}
+    render(){
+        <div>
+            <label>Title:</label>
+            <input type='text' onChange={(event)=>this.setState({title:event.target.value})}/>
+            <label>Body:</label>
+            <input type='text' onChange={(event)=>this.setState({body:event.target.value})}/>
+            <br/>
+            <button onClick={this.addPost}> Add Post</button>
+        </div>
+    }
+}
+
+
+// Burger App:
+
+goContinue(){  // called when contnue cliced from summary
+    let order={
+        ingredients:this.state.ingredients,
+        price:this.state.price,
+        customer:{
+            name:"abc",
+            address:"abc"
+        }
+    }
+    axios.post("https://firebaseurl/Orders.json", order).then((response)=>{
+        console.log(response)
+        this.setState({showSum:false})
+    })
+}

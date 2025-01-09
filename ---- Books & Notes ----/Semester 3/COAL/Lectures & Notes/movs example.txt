@@ -1,0 +1,105 @@
+; copy one word from Data segment to data segment
+[org 0x0100]
+
+jmp start
+
+num1: dw 10
+num2: dw 0
+
+start:
+
+mov si, num1
+mov di, num2
+mov ax, ds
+mov es, ax ; make sure that es is also pointing to data segment here because we can to move data from DS to DS
+movsw ; not that we have directly moved a number from memory to memory
+
+
+mov ax, 0x4c00
+int 21
+
+
+; copy one byte from Data segment to data segment
+[org 0x0100]
+
+jmp start
+
+num1: dw 0A0Bh
+num2: dw 0
+
+start:
+cld
+mov si, num1
+mov di, num2
+mov ax, ds
+mov es, ax ; make sure that es is also pointing to data segment here because we can to move data from DS to DS
+movsb ; not that we have directly moved a number from memory to memory
+
+
+mov ax, 0x4c00
+int 21
+
+; copy and array of words  from Data segment to data segment
+[org 0x0100]
+
+jmp start
+
+num1: dw 10, 20, 30, 40
+num2: dw 0, 0, 0 ,0 
+len: dw 4
+
+start:
+
+mov si, num1
+mov di, num2
+mov ax, ds
+mov es, ax ; make sure that es is also pointing to data segment here because we can to move data from DS to DS
+mov cx, [len]
+rep movsw ; not that we have directly moved a number from memory to memory; you can use F1 to see each iteration of F2 to step over this instruction
+; note the values of SI and DI at each repetition
+
+mov ax, 0x4c00
+int 21
+
+;copying array of bytes from data segment to data segment
+[org 0x0100]
+
+jmp start
+
+num1: db 10, 20, 30, 40
+num2: db 0, 0, 0 ,0 
+len: dw 4
+
+start:
+
+mov si, num1
+mov di, num2
+mov ax, ds
+mov es, ax ; make sure that es is also pointing to data segment here because we can to move data from DS to DS
+mov cx, [len]; number of elements in array
+rep movsb ; not that we have directly moved a number from memory to memory; you can use F1 to see each iteration of F2 to step over this instruction
+; note the values of SI and DI at each repetition
+
+mov ax, 0x4c00
+int 21
+
+;copying data segment to memory segment
+[org 0x0100]
+
+jmp start
+
+string1: db 'ABCD'
+len: dw 4
+
+start:
+
+mov si, string1
+mov di, 0
+mov ax, 0xb800
+mov es, ax ; make sure that es is not pointing to display memory block
+mov cx, [len]; number of elements in array
+rep movsb ; not that we have directly moved a number from memory to memory; you can use F1 to see each iteration of F2 to step over this instruction
+; note the values of SI and DI at each repetition
+; run this program in dosbox w/o debugging, did you see ABCD on screen? if not why?
+mov ax, 0x4c00
+int 21

@@ -1,0 +1,122 @@
+import numpy as np
+
+def returnstep(value):
+    if value >= 0:
+        return 1
+    else:
+        return 0
+
+def PerModel(w1 , w2 , b):
+    v = np.dot(w2,w1)+b
+    y = returnstep(v)
+    print(" ")
+    print(v)
+    return y
+
+def AndLogic(x):
+    w = np.array([.5,.5])
+    b = -.8
+    return PerModel(x,w,b)
+
+def ORLogic(x):
+    w = np.array([.5,.5])
+    b = -.3
+    return PerModel(x,w,b)
+
+t1 = np.array([0,1])
+t2 = np.array([1,1])
+t3 = np.array([0,0])
+t4 = np.array([1,0])
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as se
+#loading dataset
+
+data = pd.read_csv("titanic_train.csv")
+data
+
+#cleaning the data 
+data = data.drop(columns =["Cabin"])
+data = data[data["Embarked"].notnull()]
+age = data["Age"].mean()
+data["Age"] = data["Age"].fillna(age)
+data = pd.get_dummies(data,columns=["Sex","Embarked"])
+
+hist = data.plot.hist(bins=79,alpha=0.75)
+hist
+
+plt.matshow(data.corr())
+plt.show()
+
+
+----------------------------------------
+
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
+%matplotlib inline
+import matplotlib
+import re
+
+property_df = pd.read_csv('HousePredictionProject (1).csv')
+property_df.info()
+
+
+property_df = property_df.reset_index()
+property_df = property_df.drop("index",axis=1)
+property_df.head()
+
+print(property_df["purpose"].unique())
+print(property_df["property_type"].unique())
+print(property_df["location"].unique())
+print(property_df["city"].unique())
+
+
+property_df = property_df[property_df["city"] == "Lahore"]
+property_df = property_df[property_df["property_type"] == "House"]
+print(property_df.head())
+
+df = property_df[['price', 'location', 'baths','area','bedrooms']]
+
+df.info()
+print(df)
+
+# Checking if any null values in the df
+df.isna().sum()
+
+df = df.drop(df[(df['baths']==0) & (df['bedrooms'] > 3)].index)
+df = df.drop(df[(df['baths']==0) & (df['bedrooms'] == 0)].index)
+df.drop(df[(df['bedrooms']==0) | (df['baths']==0)].index, inplace=True)
+df[df["baths"] > df["bedrooms"]]
+df.drop(df[df['baths'] > df['bedrooms']].index, inplace=True)
+print(df)
+print(df)
+
+def sqft(area):
+    area = str(area)
+    if 'Marla' in area:
+        area = float(re.sub(r'\D+', '', area)) * 272.251
+    elif 'Kanal' in area:
+        area = float(re.sub(r'\D+', '', area)) * 5445
+    return area
+
+df['area'] = df['area'].apply(sqft)
+print(df)
+
+df['area'] = pd.to_numeric(df['area'])
+df['price_per_sqft'] = df['price'] / df['area']
+
+final = df[['price', 'location', 'baths','bedrooms','price_per_sqft']]
+
+# Save the output to a new file
+final.to_csv('output.csv', index=False)
+
+d= pd.read_csv('output.csv')
+d.info()
+
+
+
+

@@ -1,0 +1,115 @@
+<html>
+    <head>
+        <style>
+            body,*{
+                border: 3px solid black;
+                border-radius: 5px;
+            }
+            p{   
+                color: blueviolet;
+            }
+
+            .yes{
+               color: brown;     
+            }
+
+            #for{
+                color:chocolate;
+            }
+            div>h1, p{
+                color:yellowgreen;
+            }
+            #halfwidthcontainer{
+                width:50%
+            }
+            .half{
+                width: 50%
+            }
+            .quarter{
+                width:25%
+            }
+            #span1{
+                padding: 10px;  /*all sides*/
+            }
+            #span2{
+                padding: 10px 5px;  /*vertically horizontal*/
+            }
+            #span3{
+                padding: 10px 5px 30px; /*top sides bottom*/
+            }
+            #span4{
+                padding: 10px 5px 30px 60px;  /* top right bottom left */
+            }
+        </style>
+    </head>
+    <body>
+        <h1 style="color:aqua;">this is me</h1>
+        <a class="no" href="https://www.google.com">click</a>
+
+        <ul type="square">
+            <li>one</li>
+            <li>two</li>
+            <li>three</li>  
+        </ul>
+        <ol type="I" start ="5">
+            <li>one</li>
+            <li>two</li>
+            <li>three</li>
+        </ul>
+
+        <p class="yes">hello world</p>
+
+        <table border style ="border-color: blue;">
+            <tr>
+                <th>name</th>
+                <th>dob</th>
+            </tr>
+            <tr>
+                <td>Amin</td>
+                <td>19</td>
+            </tr>
+        </table>
+
+        <form>
+            <label id="for">Username</label>
+            <input type="text"/>
+        </form>
+        <select>
+            <option>one</option>
+            <option selected>two</option>
+            <option>thee</option>
+            <optgroup label="More stuff">
+                <option>1 MORE</option>
+                <option>2 MORE</option>
+                <option>4 MORE</option>
+            </optgroup>
+        </select>
+        <h1>ff</h1>
+
+        <div>
+            <h1>
+                waaawoo
+            </h1>
+        </div>
+
+        <p>
+            Dear all kindly find attached
+        </p>
+
+        <div>
+            <h1 class="half">Half width</h1>
+            <h1 class="quarter">quarter width</h1>
+        </div>
+        <div id="halfwidthcontainer">
+            <h1 class="half">Half width</h1>
+            <h1 class="quarter">quarter width</h1>
+        </div>
+
+        <div>
+            <span id="span1">one</span>
+            <span id="span2">two</span>
+            <span id="span3">three</span>
+            <span id="span4">four</span>
+        </div>
+    </body>
+</html>

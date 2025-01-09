@@ -1,0 +1,59 @@
+Structure
+container:
+    App.css
+    App.js
+Persons:
+    Persons.js
+    Person
+        Person.js
+        Person.css
+Cockpit:
+    .js
+
+Only app.js is statefull component
+class vs functional
+- both have state access
+- no lifecycle hooks in functional
+- class xy extends Component  ,  const XY = props=>{}
+Access to state and props via this in class
+via props in functional components
+
+Component lifecycle:
+--------------------
+constructor: when first tume
+getDerivedStateFromProps()
+shouldComponentUpdate()
+getSnapshotBeforeUpdate()
+componentDidUpdate()
+componentDidCatch()
+
+creation:
+---------
+justs set state consecutor auto
+hooks not available in functional components
+doesn't run on updaye       runs again if component toggled
+constructor(props) -> getDerivedStateFromProps(props,state) // rare, get props and make immediate state changes
+ -> render() -> render child components one by one -> componentDidMount() // everything done, ready
+ Never hit api on render, do it in componentDidMount
+
+update:
+--------
+getDerivedStateFromProps(props,state) -> shouldComponentUpdate(nextProps, nextState) -> render
+-> update child components -> getSnapshotBeforeUpdate(prevProp, prevState) -> componentDidUpdate()
+
+ in App.js
+ -----------------
+
+ class App extends Component{
+    constructor(){
+        console.log(" ")
+    }
+
+    render(){
+        console.log("d")
+    }
+
+    componentDidMount(){
+
+    }
+ }

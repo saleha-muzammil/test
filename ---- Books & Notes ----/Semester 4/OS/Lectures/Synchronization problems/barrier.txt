@@ -1,0 +1,41 @@
+
+Barrier Problem: There are n processes. Any process cannot start executing b until every process has executed a (where a and b could have one instruction or multiple instructions).
+
+//shared variables
+mutex m=false, s=true;
+int counter=0;
+
+###Code####
+
+a;
+acquire(m);
+
+counter++;
+if (counter==n)
+ release(s);
+ 
+release(m);
+
+
+ 
+acquire(s);
+release(s);
+
+b;
+#####################################################
+
+########The Following Solution is also correct##############################
+
+a;
+acquire(m);
+counter++;
+release(m);
+
+if (counter==n)
+ release(s);
+ 
+acquire(s);
+release(s);
+
+b;
+

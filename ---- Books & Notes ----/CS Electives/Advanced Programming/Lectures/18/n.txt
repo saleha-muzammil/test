@@ -1,0 +1,67 @@
+To chane variable, we used state
+
+When is state management difficult?
+
+
+App
+-Dashboard
+    -User, signup
+-Main
+    -Cart, product details
+
+Will have to change entire tree if user needs access in Cart.
+Sholdnt send all dataa in query params
+
+Redux:
+    A global store that can be called by a component, but tareeqay se - thru a process
+    Tracks who called.
+    Component calls the process and the process fetches the part of state.
+    Global variables.
+    Javascript global variable can be called by anyone. difficult to track when error occurs
+    React won't understand changes.
+
+Component dispatches action (payload) reaches Reducer which accesses and updates the state.
+
+
+
+redux.js 
+-----------------
+
+const redux = require('redux');
+const toolkit = require('@reduxjs/toolkit');
+
+const initialState={
+    counter:0
+}
+
+//reducer
+const reducer=(state=initialState, action)=>{
+    if(action.type==='inc'){
+        return{
+            ...state,
+            counter:state.counter+1
+        }
+    }
+    if(action.type==='add'){
+        return{
+            ...state,
+            counter:state.counter+action.value
+        }
+    }
+    return state;
+}
+
+//store
+const store = toolkit.configureStore({reducer:reducer});  // attach reducer because only it can access store
+console.log(store.getState())
+
+//dispatch action
+store.dispatch({type:'inc'})
+store.dispatch({type:'add', value:10}) // action is the object, value is the payload
+
+console.log(store.getState())
+
+//subscription
+store.subscribe(()=>{
+    console.log(store.getState())
+})

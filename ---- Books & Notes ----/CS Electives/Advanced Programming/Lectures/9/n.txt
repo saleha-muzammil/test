@@ -1,0 +1,41 @@
+React:
+JS library, helps in building UI 
+
+
+Components:
+
+function Person(props){
+    return(
+        <div class="persion">
+            <h1>{props.name}</h1>
+            <p>{props.age}</p>
+        </div>
+    );
+}
+
+ReactDOM.render(<Person name ="Amin" age=20/>,document.querySelector("#p1"))
+
+ReactDOM.render(<Person name ="Aminf" age=210/>,document.querySelector("#p2"))
+
+<div id='p1'></div>
+<div id='p2'></div>
+
+-----------------------------------------------------
+
+<div class="root"></div>
+
+let app (
+        <div>
+            <Person name ="Amin" age=20/>
+            <Person name ="Aminf" age=210/>
+        </div>
+    );
+ReactDOM.render(app,document.querySelector("#root"))
+
+npm install create-react-app
+npx create-react-app sample
+code .
+npm start
+
+only one html index.html
+index.js runs first

@@ -1,0 +1,36 @@
+Tags: Opening and closing brackets <h1>  </h1>
+Element: Something inside a tag  <h1> something </h1>
+Attribute: Some property of the element inside the opening tag  <h1 attr=""> </h1>
+
+Static pages: No interaction with user
+Dynamic html pages: Takes user input
+Single head and single body
+
+img and br don't have closing Tags
+
+anchor tag: for hyperlinks to redirect
+    paths: absolute from scratch or relative
+
+Block elements start from new line e.g. div, p
+
+Inline elements continue in same line:e.g.bold, span, labels
+
+class help differentiate elements help in styling
+
+id helps getting values from code
+
+presentational oriented approach
+
+semantic: tags have meaningful names, content has meaning
+    e.g. header, nav, content, article, section, aside (sidebar) footer, 
+    strong (bold b), emphasis (italic i)
+    article has sections
+
+Styling: Inside head
+
+closest style applied to the tag (inline nearer than the one in head)
+
+parent child relationship: to not give style to some elements, h inside div
+
+padding spacing inside border
+margin spacing outside border

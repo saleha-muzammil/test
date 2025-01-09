@@ -1,0 +1,12 @@
+DOM: Document Object Model
+        |--> HTML file
+    Client side, jldi load hosakay
+
+    dom viewer online
+
+    document -> html -> head
+                     -> body
+    Every node is Element Node  e.g. <h>, <p>, or anything in <>
+               or Textual Node   e.g. This is a para (inside p tag)
+
+Textual node is defined wheever we make an element at new line

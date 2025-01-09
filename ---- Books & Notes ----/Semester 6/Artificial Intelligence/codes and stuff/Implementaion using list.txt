@@ -1,0 +1,61 @@
+def astar(graph, start, goal):
+    visited = []
+    queue = [(start, [start], 0)]
+    while queue:
+        (node, path, cost) = queue.pop(0)
+        if node == goal:
+            return (path, cost)
+        if node not in visited:
+            visited.append(node)
+            for neighbor in graph[node]:
+                queue.append((neighbor[0], path + [neighbor[0]], cost + neighbor[1] + heuristic(neighbor[0], goal)))
+            queue = sorted(queue, key=lambda x: x[2])
+    return None
+---------------------------------------------------------------------------------------------------------------------------
+def bfs(graph, start):
+    visited = []
+    queue = [start]
+    while queue:
+        node = queue.pop(0)
+        if node not in visited:
+            visited.append(node)
+            queue.extend([x for x in graph[node] if x not in visited])
+    return visited
+----------------------------------------------------------------------------------------------------------------------------
+def dfs(graph, start):
+    visited = []
+    stack = [start]
+    while stack:
+        node = stack.pop()
+        if node not in visited:
+            visited.append(node)
+            stack.extend([x for x in graph[node] if x not in visited])
+    return visited
+----------------------------------------------------------------------------------------------------------------------------
+def minimax(node, depth, maximizingPlayer, values):
+    if depth == 0 or node >= len(values):
+        return values[node]
+    if maximizingPlayer:
+        return max(minimax(node*2, depth-1, False, values), minimax(node*2 + 1, depth-1, False, values))
+    else:
+        return min(minimax(node*2, depth-1, True, values), minimax(node*2 + 1, depth-1, True, values))
+---------------------------------------------------------------------------------------------------------------------------
+def alpha_beta(node, depth, alpha, beta, maximizingPlayer, values):
+    if depth == 0 or node >= len(values):
+        return values[node]
+    if maximizingPlayer:
+        v = float('-inf')
+        for child in [node*2, node*2 + 1]:
+            v = max(v, alpha_beta(child, depth-1, alpha, beta, False, values))
+            alpha = max(alpha, v)
+            if beta <= alpha:
+                break
+        return v
+    else:
+        v = float('inf')
+        for child in [node*2, node*2 + 1]:
+            v = min(v, alpha_beta(child, depth-1, alpha, beta, True, values))
+            beta = min(beta, v)
+            if beta <= alpha:
+                break
+        return v

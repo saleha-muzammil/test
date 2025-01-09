@@ -1,0 +1,39 @@
+->Binary Search Tree implementation using arrays is not efficient space-wise. Because if we have a totally degenerate BST having n nodes, then the array-based BST
+will take (2^n)-1 size to store n elements. So the minimum required size of array to store n nodes will be n, and maximum required size of the array to store n nodes will be (2^n)-1 (for degenerate tree).
+
+->A Binary tree however can be stored in an array efficiently if we maintain the binary tree as a complete binary tree. In case of complete binary tree, n nodes can be stored in an array of size n.
+=========================================================================================================================================================================
+
+Priority Queue are special queues that are not FIFOS. Each element in the queue has a certain priority associated with it, and for each pop operation, that element is popped which has the highest priority.
+
+Applications:
+1. Finding that path between two cities that has the shortest distance.
+3. Process Scheduling (a process that arrived after other processes may be serviced earlier because of higher priority)
+
+
+We have been implementing different data structures in such a way that each data item in the data structure is a <key, value> pair. We can use the key to define priority of each data item. For example, the lower value of key may mean higher priority and the higher value of key may mean lower priority. It can also be the other way around.
+
+Priority queues can be implemented using arrays or linked list just like normal queues. However, they may
+be inefficient, pop operation will take O(n). Push operation will however take O(1).
+
+We can define a priority queue in such a way that push operation takes O(n) time and pop operation takes O(1). In this case, we are actually ensuring that the elements in the queue are always in sorted order.
+
+To ensure that both operations take log(n) time complexity, we implement priority queues in the form of heaps.
+
+Binary Heap is a data structure that has the following properties:
+1. It is a complete binary tree
+2. For every node n in binary heap, the priority of its key is greater than or equal to the priority of keys of its children. This property is also called the heap order property.
+
+(when we say heap, we usually mean binary heap)
+A heap may be min heap or max heap.
+
+min heap:
+the lower value of key means higher priority.
+
+max heap:
+the higher value of key means higher priority.
+
+We usually implement binary heaps using arrays because it's easier and does not consume too much memory like binary search tree. complete binary tree property can be maintained for heaps if:
+1.we always insert the new element at the smallest possible index number. But the heap order property may be violated. So we perform an operation on the newly inserted element call percolate up (also called shift up).
+
+2. for removeMin operation, we move the last element of the heap at index 0 an then apply an operation called percolate down (also called shift down).

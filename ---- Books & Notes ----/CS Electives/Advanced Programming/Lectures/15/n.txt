@@ -1,0 +1,34 @@
+lifecycle for functional components: useEffect
+useeffect runs whenevr component renders
+we don;t want it to run at every update
+const Cockpit=(props)=>{
+    React.useEffect(()=>{
+        runs at end of render
+        setTimeout(()=>{
+            alert('dahudh')
+        },100);
+    },[props.getTitle]) // dependency which causes re render, em
+                        won t work after first time
+}
+
+
+Another way
+
+export default React.memo(Cockpuit) // renders only if there
+                                    is some change in - any - property or state
+                                    No need to write all things in dependency array 
+
+                                    useEffect used when some specific dependency to be checked
+
+for class components,
+you would have to check for each propery in shouldComponentUpdate
+Solution: PureComponent
+class Person extends PureComponent{
+    // it has own implemntation of shouldComponentUpdate
+    // checks all property
+}
+
+Higher order components. Parent div needed.
+<Wrapper>
+    
+</Wrapper>

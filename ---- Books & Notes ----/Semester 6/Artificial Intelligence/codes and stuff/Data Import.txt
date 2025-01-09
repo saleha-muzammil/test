@@ -1,0 +1,13 @@
+import pandas as pd
+import numpy as np
+
+# Read data from a CSV file
+df = pd.read_csv('filename.csv')
+
+# Read data from an Excel file
+df = pd.read_excel('filename.xlsx')
+
+# Read data from a SQL database
+import sqlite3
+conn = sqlite3.connect('database.db')
+df = pd.read_sql_query("SELECT * FROM table_name", conn)

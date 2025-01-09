@@ -1,0 +1,650 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!-- saved from url=(0060)https://phoenix.goucher.edu/~kelliher/s2011/cs325/mar21.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>TCP</title>
+<meta name="description" content="TCP">
+<meta name="keywords" content="l09">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+
+<meta name="Generator" content="LaTeX2HTML v2002-2-1">
+<meta http-equiv="Content-Style-Type" content="text/css">
+
+<link rel="STYLESHEET" href="./TCP_files/mar21.css">
+
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1060.0" data-gr-ext-installed="">
+
+<p>
+</p><h1 align="CENTER">TCP</h1>
+<div>
+
+<p align="CENTER"><strong>Tom Kelliher, CS 325</strong></p>
+<p align="CENTER"><strong>Mar.&nbsp;21, 2011</strong></p>
+</div>
+<p>
+
+</p><h1><a name="SECTION00010000000000000000">
+Administrivia</a>
+</h1>
+
+<p>
+
+</p><h3><a name="SECTION00010100000000000000">
+Announcements</a>
+</h3>
+
+<p>
+
+</p><h3><a name="SECTION00010200000000000000">
+Assignment</a>
+</h3>
+
+<p>
+Read 3.6-7, web server and mail user agent project descriptions.
+
+</p><p>
+
+</p><h3><a name="SECTION00010300000000000000">
+From Last Time</a>
+</h3>
+
+<p>
+Web server and mail user agent project discussions.
+
+</p><p>
+
+</p><h3><a name="SECTION00010400000000000000">
+Outline</a>
+</h3>
+
+<p>
+
+</p><ol>
+<li>TCP connection and segment structure.
+
+<p>
+</p></li>
+<li>Round trip delay estimation.
+
+<p>
+</p></li>
+<li>Reliable data transfer.
+
+<p>
+</p></li>
+<li>Flow control.
+
+<p>
+</p></li>
+<li>Connection management.
+
+<p>
+</p></li>
+</ol>
+
+<p>
+
+</p><h3><a name="SECTION00010500000000000000">
+Coming Up</a>
+</h3>
+
+<p>
+Discussion of web server and mail user agent projections.
+
+</p><p>
+
+</p><h1><a name="SECTION00020000000000000000">
+The TCP Connection and Segment Structure</a>
+</h1>
+
+<p>
+Recall that:
+
+</p><ol>
+<li>TCP is connection-oriented -- three-step ``handshake.''
+
+<p>
+</p></li>
+<li>TCP state only resides in the source and destination hosts -- not
+  within intermediate hosts.
+
+<p>
+</p></li>
+<li>TCP is full-duplex and point-to-point.
+
+<p>
+</p></li>
+<li>Maximum segment size (MSS) is limited by maximum transmission unit
+  (MTU), which is the largest link-level frame that can be sent.
+
+<p>
+MSS is data only.  Path MTU discovery.
+
+</p><p>
+</p></li>
+<li>A segment consists of TCP header information and the data.
+
+<p>
+</p></li>
+<li>TCP connection state: send/receive buffers, variables, socket.
+
+<p>
+</p></li>
+</ol>
+
+<p>
+
+</p><p>
+Segment structure:
+
+</p><p>
+</p><div align="CENTER">
+<img width="459" height="422" align="BOTTOM" border="0" src="./TCP_files/mar21img1.png" alt="\includegraphics[width=4in]{Figures/fig03_29.eps}">
+</div>
+
+<p>
+
+</p><ol>
+<li>Receive window: Used for flow control.  Number of bytes a receiver is
+  willing to accept.
+
+<p>
+</p></li>
+<li>URG: Upper layer sending protocol has marked this data as ``urgent.''
+
+<p>
+</p></li>
+<li>ACK: Indicates that the acknowledgement field is valid.
+
+<p>
+</p></li>
+<li>PSH: Receiver should push data to upper layer protocol immediately.
+
+<p>
+</p></li>
+<li>RST: Reset the connection -- segment sent to a non-existent socket.
+
+<p>
+</p></li>
+<li>SYN: Used during initial handshake.
+
+<p>
+</p></li>
+<li>FIN: Used during connection tear-down.
+
+<p>
+</p></li>
+<li>Urgent Data Pointer: Pointer to last byte of urgent data.
+
+<p>
+</p></li>
+</ol>
+
+<p>
+
+</p><p>
+Segment and acknowledgement numbers:
+
+</p><ol>
+<li>Individual bytes have sequence numbers:
+
+<p>
+</p><div align="CENTER">
+<img width="690" height="188" align="BOTTOM" border="0" src="./TCP_files/mar21img2.png" alt="\includegraphics{Figures/fig03_30.eps}">
+</div>
+
+<p>
+File size of 500&nbsp;KB with an MSS of 1,000&nbsp;B. 
+
+</p><p>
+Segment number for a segment is segment number of first byte.
+
+</p><p>
+Acknowledgement number is <b>next</b> expected segment number.
+
+</p><p>
+</p></li>
+<li>Acknowledgements are cumulative.
+
+<p>
+A receiver will accept segments out of order, but will not acknowledge them
+if earlier segments have not been received.
+
+</p><p>
+
+</p><p>
+</p></li>
+<li>Telnet example (next sequence number of client is 42; for server,
+  it's 79):
+
+<p>
+</p><div align="CENTER">
+<img width="690" height="643" align="BOTTOM" border="0" src="./TCP_files/mar21img3.png" alt="\includegraphics{Figures/fig03_31.eps}">
+</div>
+
+<p>
+Remote host handles echoing.  Response time crucial for interactive
+applications.
+
+</p><p>
+</p></li>
+</ol>
+
+<p>
+
+</p><h1><a name="SECTION00030000000000000000">
+Round Trip Delay Estimation</a>
+</h1>
+
+<p>
+
+</p><ol>
+<li>TCP uses timeout/retransmission.  How is the timeout interval
+  determined?
+
+<p>
+</p></li>
+<li><tt>SampleRTT</tt>: Measurement of a sample RTT.  Typically, one done
+  at a time.
+
+<p>
+</p></li>
+<li><tt>EstimatedRTT</tt> is an exponential weighted average:
+<br><p></p>
+<div align="CENTER">
+<!-- MATH
+ \begin{displaymath}
+{\tt EstimatedRTT} = 0.875 \times {\tt EstimatedRTT} + 0.125 \times {\tt
+  SampleRTT}
+\end{displaymath}
+ -->
+
+<img width="504" height="33" border="0" src="./TCP_files/mar21img4.png" alt="\begin{displaymath}
+{\tt EstimatedRTT} = 0.875 \times {\tt EstimatedRTT} + 0.125 \times {\tt
+SampleRTT}
+\end{displaymath}">
+</div>
+<br clear="ALL">
+<p></p>
+
+<p>
+</p></li>
+<li>Relationship between <tt>SampleRTT</tt> and <tt>EstimatedRTT</tt>:
+
+<p>
+</p><div align="CENTER">
+<img width="690" height="414" align="BOTTOM" border="0" src="./TCP_files/mar21img5.png" alt="\includegraphics{Figures/fig03_32.eps}">
+</div>
+
+<p>
+</p></li>
+<li>Also need to account for variance in RTTs.  <tt>DevRTT</tt> estimates the
+  variance:
+<br><p></p>
+<div align="CENTER">
+<!-- MATH
+ \begin{displaymath}
+{\tt DevRTT} = 0.75 \times {\tt DevRTT} + 0.25 \times | {\tt SampleRTT} -
+{\tt EstimatedRTT} |
+\end{displaymath}
+ -->
+
+<img width="517" height="33" border="0" src="./TCP_files/mar21img6.png" alt="\begin{displaymath}
+{\tt DevRTT} = 0.75 \times {\tt DevRTT} + 0.25 \times \vert {\tt SampleRTT} -
+{\tt EstimatedRTT} \vert
+\end{displaymath}">
+</div>
+<br clear="ALL">
+<p></p>
+
+<p>
+</p></li>
+<li>Finally, the <tt>TimeoutInterval</tt> needs to provide some cushion to
+  prevent unnecessary retransmissions:
+<br><p></p>
+<div align="CENTER">
+<!-- MATH
+ \begin{displaymath}
+{\tt TimeoutInterval} = {\tt EstimatedRTT} + 4 \times {\tt DevRTT}
+\end{displaymath}
+ -->
+
+<img width="405" height="30" border="0" src="./TCP_files/mar21img7.png" alt="\begin{displaymath}
+{\tt TimeoutInterval} = {\tt EstimatedRTT} + 4 \times {\tt DevRTT}
+\end{displaymath}">
+</div>
+<br clear="ALL">
+<p></p>
+
+<p>
+</p></li>
+</ol>
+
+<p>
+
+</p><p>
+
+</p><h1><a name="SECTION00040000000000000000">
+Reliable Data Transfer</a>
+</h1>
+
+<p>
+Simplified TCP sender:
+</p><pre>NextSeqNum = InitialSequenceNumber;   // Must be pseudo-randomly chosen.
+SendBase = InitialSequenceNumber;
+
+while (1)
+{
+   switch(event)
+   {
+      case: DataReceivedFromApplicationAbove
+         create TCP segment with sequence number NextSeqNum;
+         if (TimerNotRunning)
+            start timer;   // Use TimeoutInterval value.
+         pass segment to IP
+         NextSeqNum += length(Data);
+         break;
+
+      case: TimerTimeout
+         retransmit not-yet-acknowledged segment
+            with smallest segment number;
+         start timer;   // Double timeout interval.
+         break;
+
+      case: ACKReceivedWithACKFieldValueOfY
+         if (y &gt; SendBase)
+         {
+            SendBase = y;
+            if (UnAcknowledgedSegmentsExist)
+               start timer;   // Use TimeoutInterval value.
+         }
+         break;
+   }
+}
+</pre>
+
+<p>
+
+</p><p>
+Example -- retransmit due to lost ACK:
+
+</p><p>
+</p><div align="CENTER">
+<img width="573" height="631" align="BOTTOM" border="0" src="./TCP_files/mar21img8.png" alt="\includegraphics[width=5in]{Figures/fig03_34.eps}">
+</div>
+
+<p>
+
+</p><p>
+Example -- only oldest segment gets retransmitted.
+
+</p><p>
+</p><div align="CENTER">
+<img width="690" height="629" align="BOTTOM" border="0" src="./TCP_files/mar21img9.png" alt="\includegraphics{Figures/fig03_35.eps}">
+</div>
+
+<p>
+
+</p><p>
+Example -- cumulative acknowledgement handles lost ACK:
+
+</p><p>
+</p><div align="CENTER">
+<img width="690" height="623" align="BOTTOM" border="0" src="./TCP_files/mar21img10.png" alt="\includegraphics{Figures/fig03_36.eps}">
+</div>
+
+<p>
+
+</p><p>
+Fast retransmit:
+
+</p><ol>
+<li>Sender can detect lost segments before timer expiration by looking
+  for duplicate ACKs of an ``older'' segment.
+
+<p>
+Only takes effect if three duplicate ACKs are received for a segment:
+</p><pre>case: ACKReceivedWithACKFieldValueOfY
+   if (y &gt; SendBase)
+   {
+      SendBase = y;
+      if (UnAcknowledgedSegmentsExist)
+         start timer;   // Use TimeoutInterval value.
+   }
+   else   // Duplicate ACK.
+   {
+      IncrementDuplicateACKCount(y);
+      if (DuplicateACKCount(y) == 3)
+         resend segment y;
+   }
+   break;
+</pre>
+
+<p>
+</p></li>
+<li>Receiver behavior used to provide ``hints'' to sender:
+
+<p>
+</p><div align="CENTER">
+<table cellpadding="3" border="1">
+<tbody><tr><td align="LEFT" valign="TOP" width="207"><b>Event</b></td>
+<td align="LEFT" valign="TOP" width="207"><b>TCP Receiver Action</b></td>
+</tr>
+<tr><td align="LEFT" valign="TOP" width="207">Arrival of in-order segment with expected sequence number.  All segments up
+to expected sequence number already acknowledged.</td>
+<td align="LEFT" valign="TOP" width="207">Delayed ACK.  Wait up to 500&nbsp;ms for arrival of another in-order segment.
+If next in-order segment does not arrive in this interval, send an ACK.</td>
+</tr>
+<tr><td align="LEFT" valign="TOP" width="207">Arrival of in-order segment with expected sequence number.  One other
+in-order segment wait for ACK transmission.</td>
+<td align="LEFT" valign="TOP" width="207">Immediately send single cumulative ACK, ACKing both in-order segments.</td>
+</tr>
+<tr><td align="LEFT" valign="TOP" width="207">Arrival of out-of-order segment with higher-than-expected sequence number.
+<b>Gap detected.</b></td>
+<td align="LEFT" valign="TOP" width="207">Immediately send duplicate ACK, indicating sequence number of next expected
+byte (which is the lower end of the gap).</td>
+</tr>
+<tr><td align="LEFT" valign="TOP" width="207">Arrival of segment that partially or completely fills in gap in received
+data.</td>
+<td align="LEFT" valign="TOP" width="207">Immediately send ACK, provided that segment starts at the lower end of
+gap.</td>
+</tr>
+</tbody></table>
+</div>
+
+<p>
+
+</p><p>
+Fast retransmit example:
+
+</p><p>
+</p><div align="CENTER">
+<img width="690" height="804" align="BOTTOM" border="0" src="./TCP_files/mar21img11.png" alt="\includegraphics{Figures/fig03_37.eps}">
+</div>
+
+<p>
+</p></li>
+</ol>
+
+<p>
+
+</p><p>
+
+</p><h1><a name="SECTION00050000000000000000">
+Flow Control</a>
+</h1>
+
+<p>
+Don't confuse with congestion control!
+
+</p><p>
+
+</p><ol>
+<li>Allows receiver to throttle sender to match consumption rate of
+  process bound to socket.
+
+<p>
+</p></li>
+<li>There is a <tt>RcvWindow</tt> field in the TCP header.
+
+<p>
+</p></li>
+<li>Each receiver computes the size of its receive window and sends it
+  with TCP segments:
+<br><p></p>
+<div align="CENTER">
+<!-- MATH
+ \begin{displaymath}
+{\tt RcvWindow} = {\tt RcvBuffer} - ({\tt LastByteRcvd} - {\tt LastByteRead})
+\end{displaymath}
+ -->
+
+<img width="497" height="33" border="0" src="./TCP_files/mar21img12.png" alt="\begin{displaymath}
+{\tt RcvWindow} = {\tt RcvBuffer} - ({\tt LastByteRcvd} - {\tt LastByteRead})
+\end{displaymath}">
+</div>
+<br clear="ALL">
+<p></p>
+So, <tt>RcvWindow</tt> is the amount of space available in the receive
+buffer.
+
+<p>
+</p></li>
+<li>Sender decides how much data it can send by:
+<br><p></p>
+<div align="CENTER">
+<!-- MATH
+ \begin{displaymath}
+{\tt LastByteSent} - {\tt LastByteAcked} \leq {\tt RcvWindow}
+\end{displaymath}
+ -->
+
+<img width="382" height="33" border="0" src="./TCP_files/mar21img13.png" alt="\begin{displaymath}
+{\tt LastByteSent} - {\tt LastByteAcked} \leq {\tt RcvWindow}
+\end{displaymath}">
+</div>
+<br clear="ALL">
+<p></p>
+LHS is an idea of how much data is ``in the pipe.''
+
+<p>
+</p></li>
+<li>Dilemma: What does sender do when receive window is 0?
+
+<p>
+Solution: Send segments with one byte of data, so as to receive updates as
+to current receive window size.
+
+</p><p>
+</p></li>
+</ol>
+
+<p>
+
+</p><p>
+
+</p><h1><a name="SECTION00060000000000000000">
+Connection Management</a>
+</h1>
+
+<p>
+The three-way handshake:
+</p><div align="CENTER">
+<img width="690" height="601" align="BOTTOM" border="0" src="./TCP_files/mar21img14.png" alt="\includegraphics{Figures/fig03_39.eps}">
+</div>
+
+<p>
+
+</p><ol>
+<li>Client chooses <b>random</b> ISN.  Sends SYN segment.
+
+<p>
+</p></li>
+<li>Server allocates state for connection.  Selects <b>random</b> ISN.
+  Sends SYNACK segment.
+
+<p>
+Server vulnerable to SYN flooding at this point.
+
+</p><p>
+</p></li>
+<li>Client allocates state and ACKs server's SYN segment.
+
+<p>
+</p></li>
+</ol>
+
+<p>
+
+</p><p>
+Client closes the connection:
+
+</p><p>
+</p><div align="CENTER">
+<img width="690" height="725" align="BOTTOM" border="0" src="./TCP_files/mar21img15.png" alt="\includegraphics{Figures/fig03_40.eps}">
+</div>
+
+<p>
+Timed Wait: Client keeps connection ``around'' in case it needs to resend
+ACK to server's FIN.
+
+</p><p>
+
+</p><p>
+Typical sequence of client TCP states:
+
+</p><p>
+</p><div align="CENTER">
+<img width="690" height="512" align="BOTTOM" border="0" src="./TCP_files/mar21img16.png" alt="\includegraphics{Figures/fig03_41.eps}">
+</div>
+
+<p>
+This assumes the client begins the connection close sequence.
+  <code>FIN_WAIT_N</code> states necessary to avoid premature <tt>RST</tt> segment.
+
+</p><p>
+
+</p><p>
+Typical sequence of server TCP states:
+
+</p><p>
+</p><div align="CENTER">
+<img width="690" height="532" align="BOTTOM" border="0" src="./TCP_files/mar21img17.png" alt="\includegraphics{Figures/fig03_42.eps}">
+</div>
+
+<p>
+Again, this assumes the client begins the connection close sequence.
+
+</p><p>
+<br></p><hr>
+<address>
+Thomas P. Kelliher
+2011-03-21
+</address>
+<a href="https://phoenix.goucher.edu/~kelliher/">Tom Kelliher</a>
+
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>

@@ -1,0 +1,10 @@
+Imperative coding: Each and every thing explained (done so far)
+Declarative/Functional coding: Focus on result
+Mutation: program state changes, difficult to tell where mutation occurs
+Declarative code => prevent mutation
+    Conversion to Declarative:
+        1. Convert let's to const's
+        2. Put maximum individual tasks in functions, make arrow functions
+        3. Pure functions, pass arguments, don't communicate with outer world
+        4. Remove looping and use javascript e6 features  e.g.reduce, find, map, filter
+        

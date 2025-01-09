@@ -1,0 +1,79 @@
+-----------------------
+setState: sets new state updated state object, and anonymus function
+
+change = ()=>{
+    this.setState(function(prevState){   // can be done in both class and functional components
+        if(prevState.text==="Yes"){
+            return {text:"No"}
+        } else {
+            return {text:"Yes"}
+        }
+    })
+}
+
+------------------------
+code cumbersome if error due to some change and different state for each components
+better to have 1-2 components that manage state
+containers, not evry component shld be containers
+
+2 way binding, person -- on change --> app
+app --- name --> person
+components alwasy commiunicate with props
+
+in persons.js
+import "./Person.css"
+const Person=(props)=>{
+    return(
+        <div className="Person">
+            <p onClick={props.ch}>Im {props.name}, my age is {props.age} years</p>
+            <input type="text" onChange={props.inputName} value={props.name}/>  // value for default value
+        </div>
+    )
+}
+
+------------------------------
+
+in app.js
+msg =()=>{
+    this.setState({
+        persons:[
+            {name:"yusuf", age:20},
+            {name:"loll", age:20},
+        ]
+    })
+}
+changeAccToInput(event){
+    this.setState( persons:[
+            {name:event.target.value, age:20},
+            {name:"loll", age:20},
+        ])
+}
+deletePerson=(index)=>{
+    let persons = this.state.persons
+    persons.splice(index,1)
+    this.setState(persons:persons)
+}
+render(){
+    const style={
+        backgroundColor:'red'
+    }
+    return(
+
+        <div class="App">
+
+            <Person name:{this.state.persons[0].name} age:{this.state.persons[0].age} inputName={this.state.changeAccToInput}/>
+            <Person name:{this.state.persons[1].name} age:{this.state.persons[01].age} ch={deletePerson(idx)}/>
+            {this.state.persons.map((idx,p)=>{
+                return <Person name={p.name} age={p.age} ch={()=>this.deletePerson} />
+            })}
+        </div>
+    )
+}
+
+-----------------------
+//person.css 
+.Person{
+    background-color:aqua;
+    margin:10px 400px 10px 400px;
+
+}

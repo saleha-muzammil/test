@@ -1,0 +1,126 @@
+;Example 1 push and pop
+[org 0x0100] 
+ mov ax, 10
+ mov bx, 15 
+ push ax
+ push 10
+ push bx
+ push word [num1]
+ pop ax ; pop ax 
+ pop word [num1]
+ mov ax, 0x4c00 ; terminate program
+ int 0x21
+ num1: dw 0Bh
+
+
+
+ ;Example 2 subroutine call and ret
+[org 0x0100] 
+ 
+jmp start
+num1: dw 1,3,2,4
+ 
+sumArray:
+	mov ax, 0
+	mov si, 0
+	loop1:
+		
+		add ax, [bx+si]
+		add si,2
+		dec cx
+		jnz loop1
+		
+	ret
+ 
+ 
+ start: 
+     mov bx, num1
+	 mov cx, 4
+	 call sumArray
+ 
+ mov ax, 0x4c00 ; terminate program
+ int 0x21
+ 
+
+
+;Example 3 restoring register values
+ 
+[org 0x0100] 
+ 
+jmp start
+num1: dw 1,3,2,4
+ 
+sumArray:
+	; saving values of all the registers used in sumarray subroutine
+	push si
+	push cx
+	
+	mov ax, 0
+	mov si, 0
+	loop1:
+		
+		add ax, [bx+si]
+		add si,2
+		dec cx
+		jnz loop1
+		
+	pop cx ; restore the values of registers before return
+	pop si
+	ret
+ 
+ 
+ start: 
+     mov si, 10
+	 mov bx, num1
+	 mov cx, 4
+	 call sumArray
+ 
+ mov ax, 0x4c00 ; terminate program
+ int 0x21
+
+ 
+ 
+ ;Example 4 passing input args via stack
+ [org 0x0100] 
+ 
+jmp start
+num1: dw 1,3,2,4
+ 
+sumArray:
+	push bp
+	mov bp, sp	
+	; saving values of all the registers used in sumarray subroutine
+	push si
+	push cx ; ax was not saved here are result was in ax
+	
+	; read arguments
+	mov cx, [bp+4]
+	mov bx, [bp+6]
+	mov ax, 0
+	mov si, 0
+	loop1:
+		
+		add ax, [bx+si]
+		add si,2
+		dec cx
+		jnz loop1
+		
+	pop cx ; restore the values of registers before return
+	pop si
+	
+	pop bp
+	
+	ret 4
+ 
+ 
+ start: 
+     mov si, 10		
+	 ; push arg to stack	
+	 push num1
+	 push word 4
+	 call sumArray
+ 
+ mov ax, 0x4c00 ; terminate program
+ int 0x21
+
+ 

@@ -1,0 +1,157 @@
+let pen = {type:'ink pen', clr:'red'}
+undefined
+pen.type
+'ink pen'
+pen.clr = 'blue'
+'blue'
+pen
+{type: 'ink pen', clr: 'blue'}
+pen['type']
+'ink pen'
+pen.price = 30
+30
+pen
+{type: 'ink pen', clr: 'blue', price: 30}
+const ch = {name:"Aurora",health:30,strength:50}
+undefined
+ch.health-=10
+20
+console.log(ch.name +"has health points: "+ch.health)
+VM525:1 Aurorahas health points: 20
+undefined
+function des(c){
+    return `${c.name} has health points ${c.health}`
+}
+undefined
+des(ch)
+'Aurora has health points 20'
+const ch = {name:"Aurora",health:30,strength:50, 
+           describe:function(){return `${this.name} has health points ${this.health}`}}
+undefined
+ch.describe
+ƒ (){return `${this.name} has health points ${this.health}`}
+const ch = {name:"Aurora",health:30,strength:50, 
+           describe:function(){
+               return `${this.name} has health points ${this.health}`
+           }}
+undefined
+ch.describe
+ƒ (){
+               return `${this.name} has health points ${this.health}`
+           }
+// never make arrow functions in objects
+undefined
+// it takes global this
+undefined
+const ch = {name:"Aurora",health:30,strength:50, 
+           describe(){
+               return `${this.name} has health points ${this.health}`
+           }}
+undefined
+ch.describe
+ƒ describe(){
+               return `${this.name} has health points ${this.health}`
+           }
+// lexical scoping 
+undefined
+const w = ch
+undefined
+w.health = 70
+70
+ch.health
+70
+// passed by reference
+undefined
+w.gg = 99
+99
+// constructor function for blueprints of objects
+undefined
+function Parent(n,a){
+    this.name=n;
+    this.age=a;
+    this.display=function(){
+        return `${this.name} has age: ${this.age}`
+    }
+}
+undefined
+let p1 = new Parent('sara',20)
+undefined
+p1.display()
+'sara has age: 20'
+let p2 = new Parent('raza',100)
+undefined
+p2.display()
+'raza has age: 100'
+p2.fav_food = 'jooti'
+'jooti'
+p2
+Parent {name: 'raza', age: 100, fav_food: 'jooti', display: ƒ}
+Parent.prototype.sport='bandar kila'
+'bandar kila'
+p1.sport
+'bandar kila'
+p2.sport
+'bandar kila'
+function AnotherParent(n,a){
+    this.name=n;
+    this.age=a;
+    this.display=()=>{
+        return `${this.name} has age ${this.age}`
+    }
+}
+undefined
+let p111 = AnotherParent('jds',30)
+undefined
+p111.display()
+VM2117:1 Uncaught TypeError: Cannot read properties of undefined (reading 'display')
+    at <anonymous>:1:6
+(anonymous) @ VM2117:1
+
+//  Never make arrow functions in objects and costructor functions
+
+
+Map function: Map individual elements in array to some other elements
+const arr=[1,2,3,4]
+undefined
+arr.map(function(item){
+    return item**3
+})
+(4) [1, 8, 27, 64]
+arr.map(item => item**3)
+(4) [1, 8, 27, 64]
+
+Filter: Apply some filter on array
+const arr=[1,2,3,4]
+undefined
+arr.filter(function(item){
+    return item%2!==0
+})
+(2) [1, 3]
+
+Reduce: Reduce all values and give single answer
+const arr=[1,2,3,4]
+undefined
+arr.reduce(function(sum, item){
+  return sum+item  
+})
+10
+arr.reduce(function(sum, item){
+  return sum+item  
+},2)  // intial value
+12
+
+
+Some and Every:
+
+const arr=[1,2,3,4]
+undefined
+const arr1 = [-1,-2,-4,5,-6,9,5]
+undefined
+arr1.some(function(item){
+    return item<0
+})
+true
+arr1.every(function(item){
+    return item<0
+})
+false

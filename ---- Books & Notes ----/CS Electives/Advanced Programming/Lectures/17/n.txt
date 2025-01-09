@@ -1,0 +1,49 @@
+To enable routers in our project
+
+npm install react-router
+
+npm install react-router-dom
+
+one page website gives feel of multiple pages
+
+//Home.js
+import {Link} from 
+const Home = ()=>{
+    return(
+        <div>
+            <h1>Welcome to Routes</h1>
+            // anchor tags causes page to load
+            <a href="/show">Show Posts</a>
+            <a href="/new">Add Posts</a>
+            // use Link instead
+            <Link to="/show">Show Posts</Link>
+            <Link to="/new">Add Posts</Link>
+        </div>
+    )
+
+
+}
+
+export default Home;
+#
+withRouter function to fetch functional components
+
+//App.js
+import {BrowserRouter} from 'react-router-dom'
+import {Route, Routes} from 'react-router-dom'
+
+render(){
+
+    return(
+        <div className="App">
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Home/>}> </Route>
+                    <Route path="/show" element={<Posts/>}> </Route>
+                    <Route path="/new" element={<NewPost/>}> </Route>
+                </Routes>
+            </BrowserRouter>
+           {/* <Home/>*/}
+        </div>
+    )
+}
